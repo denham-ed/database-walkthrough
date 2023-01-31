@@ -6,21 +6,24 @@
     <div class="row">
       <div class="input-field col s12 ">
         <i class="fa-solid fa-list-check prefix"></i>
-        <input id="task_name" type="text" class="validate " name="task_name" minlength="3" max="25" value="{{ task.task_name }}" required>
+        <input id="task_name" type="text" class="validate " name="task_name" minlength="3" max="25"
+          value="{{ task.task_name }}" required>
         <label for="task_name">Task Name</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12 ">
-        <i class="fa-solid fa-pen prefix"></i>        
-        <textarea id="task_description" type="text" class="materialize-textarea validate " name="task_description" required>{{ task.task_description }}</textarea>
+        <i class="fa-solid fa-pen prefix"></i>
+        <textarea id="task_description" type="text" class="materialize-textarea validate " name="task_description"
+          required>{{ task.task_description }}</textarea>
         <label for="task_description">Task Description</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12 ">
-        <i class="fa-solid fa-calendar prefix"></i>        
-        <input id="due_date" type="text" class="datepicker validate " name="due_date" value="{{task.due_date.strftime('%d %B %Y')}}" required></input>
+        <i class="fa-solid fa-calendar prefix"></i>
+        <input id="due_date" type="text" class="datepicker validate " name="due_date"
+          value="{{task.due_date.strftime('%d %B %Y')}}" required></input>
         <label for="due_date">Due Date</label>
       </div>
     </div>
@@ -30,7 +33,11 @@
           <i class="fa-solid fa-exclamation prefix"></i>
           <label>
             Not Urgent
-            <input id="is_urgent" type="checkbox" name="is_urgent" >
+            {% if task.is_urgent == True %}
+            <input id="is_urgent" type="checkbox" name="is_urgent" checked>
+            {% else %}
+            <input id="is_urgent" type="checkbox" name="is_urgent">
+            {% endif %}
             <span class="lever"></span>
             Urgent
           </label>
@@ -42,15 +49,19 @@
       <div class="input-field col s12 ">
         <i class="fa-solid fa-list-check prefix"></i>
         <select name="category_id" id="category_id" class="validate" required>
-          <option value="" disabled selected>Choose Category</option>
+          <option value="" disabled>Choose Category</option>
           {% for category in categories %}
+          {% if category == task.category%}
+          <option value="{{ category.id }}" selected>{{category.category_name}}</option>
+          {% else %}
           <option value="{{ category.id }}">{{category.category_name}}</option>
+          {% endif%}
           {% endfor %}
         </select>
         <label for="category_id">Category</label>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="col s12 center-align">
         <button type="submit" class="btn-large green darken-3">
